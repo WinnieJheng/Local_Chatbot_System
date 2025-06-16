@@ -19,6 +19,10 @@ This project is a prototype of a local enterprise knowledge chatbot system power
   Integrated LangChain Retriever for semantic search
 - 💬 多輪對話記憶（記憶最近三輪對話）  
   Multi-turn memory (last 3 turns)
+- 🧠 向量資料依分類儲存（人事財務 / 資訊）  
+  Vector database stored by category (HR & Finance / IT)  
+- 💾 支援 SQLite 儲存向量資料庫，跨次啟動可用  
+  Persistent vector store using SQLite backend  
 - 🖥️ Streamlit UI 提供簡易問答介面  
   Streamlit-based user interface for chatbot interaction
 - 🧾 支援繁體中文自然語言問答  
@@ -32,11 +36,12 @@ This project is a prototype of a local enterprise knowledge chatbot system power
 
 ```
 Local_Chatbot_System/
-├── main.py                   # 主程式 Main script
-├── answer_example.jpg        # 回答畫面示意圖 Screenshot
-├── requirements.txt          # 套件需求 Required packages
-└── test_doc/                 # 測試用 PDF 資料夾 Test documents
+├── main.py                            # 主程式 Main script
+├── 20250616 answer_example.jpg        # 回答畫面示意圖 Screenshot
+├── requirements.txt                   # 套件需求 Required packages
+└── test_doc/                          # 測試用 PDF 資料夾 Test documents
     ├── HR_QA.pdf
+    ├── IT_QA.pdf
     └── Finance_QA.pdf
 ```
 
@@ -48,8 +53,10 @@ Local_Chatbot_System/
   Ollama (Gemma3 local model)
 - **語意嵌入模型**：nomic-embed-text  
   nomic-embed-text (embedding for Chinese)
-- **向量資料庫**：Chroma（記憶體中）  
-  Chroma (in-memory vector store)
+- **向量資料庫**：Chroma（搭配 SQLite 儲存）  
+  Chroma with SQLite persistence
+- **資料分類機制**：依照目錄類別自動儲存向量  
+  Vector storage by document category (HR & Finance / IT)
 - **框架整合**：LangChain  
   LangChain for agent orchestration
 - **UI介面**：Streamlit  
@@ -90,10 +97,10 @@ streamlit run main.py
 
 ## 🔮 未來規劃 Roadmap
 
-- [ ] 加入 SQLite 儲存向量庫，支援跨次啟動  
+- [x] 加入 SQLite 儲存向量庫，支援跨次啟動  
       Add SQLite backend to persist vector store
-- [ ] 支援多機器人分類（HR/財務/IT）  
-      Multiple bot modes for HR/Finance/IT
+- [x] 支援多機器人分類（人事財務/IT）  
+      Multiple bot modes for HR & Finance / IT
 - [ ] 整合 Docker + Ubuntu GPU 部署架構  
       Docker + GPU deployment for enterprise use
 - [ ] 加入原文段落引用與回答來源標示  
