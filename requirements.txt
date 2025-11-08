@@ -1,5 +1,6 @@
 streamlit
-langchain
-langchain-community
+langchain<1.0
+langchain-community<1.0
+langgraph==0.6.9
 chromadb
 pypdf

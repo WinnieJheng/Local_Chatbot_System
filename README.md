@@ -1,116 +1,94 @@
-
 # 📚 Local Chatbot System｜本地端企業知識問答系統
 
-本專案是一套基於本地部署的大語言模型（LLM）與語意檢索架構的企業內部問答原型系統，支援 PDF 文件上傳、嵌入向量庫建置、自然語言提問與多輪對話記憶。使用者可透過簡易 UI 與內部文件互動，有效降低重複性問答與行政負擔。
+本專案是一套基於 **LangChain RAG Framework**、**LangGraph Agent** 與 **Ollama 本地 LLM**
+的企業內部問答系統。\
+使用者可上傳 PDF 文件建立向量資料庫，並以自然語言進行多輪提問。\
+系統會自動判斷問題屬於「人事財務」或「資訊」分類，從對應資料庫中取得答案。
 
-This project is a prototype of a local enterprise knowledge chatbot system powered by an on-premise LLM and semantic retrieval. It allows users to upload internal PDF documents, build a vector store, and ask questions in natural language with multi-turn memory, aiming to reduce repetitive queries and streamline internal communication.
+This project is a **local enterprise knowledge chatbot** powered by
+**LangChain RAG Framework**, **LangGraph Agent** and **Ollama LLM**.\
+It supports multi-turn Q&A in Traditional Chinese, automatically
+classifies questions (HR/Finance or IT), and retrieves context from
+local vector databases.
 
----
+------------------------------------------------------------------------
 
 ## 🌟 功能 Features
 
-- 📄 支援多份 PDF 文件上傳與向量嵌入  
-  Support multiple PDF uploads with vector embedding
-- 🧹 自動進行文字清理與語意切片（Chunking）  
-  Automatic text cleaning and semantic chunking
-- 🧠 本地端 LLM（Ollama + Gemma3 模型）  
-  On-device LLM (Ollama + Gemma3)
-- 🔎 結合 LangChain Retriever 進行語意檢索  
-  Integrated LangChain Retriever for semantic search
-- 💬 多輪對話記憶（記憶最近三輪對話）  
-  Multi-turn memory (last 3 turns)
-- 🧠 向量資料依分類儲存（人事財務 / 資訊）  
-  Vector database stored by category (HR & Finance / IT)  
-- 💾 支援 SQLite 儲存向量資料庫，跨次啟動可用  
-  Persistent vector store using SQLite backend  
-- 🖥️ Streamlit UI 提供簡易問答介面  
-  Streamlit-based user interface for chatbot interaction
-- 🧾 支援繁體中文自然語言問答  
-  Traditional Chinese natural language Q&A
-- 📂 測試文件與回答示意圖附於專案中  
-  Demo documents and screenshot included
+-   🧭 **自動分類問答（LangGraph Agent）**\
+    Automatically routes queries to HR/Finance or IT database
+-   📄 **支援多份 PDF 文件上傳與向量嵌入**\
+    Upload multiple PDFs to build persistent vector stores
+-   🧠 **本地端 LLM：Ollama + Gemma3:4b**\
+    On-device inference without external API
+-   🔎 **語意檢索（Chroma + nomic-embed-text）**\
+    Semantic retrieval using local embeddings
+-   💬 **多輪記憶（Multi-turn Memory）**\
+    Maintains conversation context for coherent answers
+-   🧩 **模組化程式架構（config / utils / langgraph_chat）**\
+    Modular code for easier maintenance and scaling
+-   🐳 **Docker Compose 一鍵啟動**\
+    Unified startup for chatbot and Ollama containers
+-   💾 **Volume 永續化**\
+    Uploaded files and vector DBs persist on the host system
+-   🧾 **繁體中文自然語言互動**\
+    Designed for non-technical enterprise users in Taiwan
 
----
+------------------------------------------------------------------------
 
 ## 📁 專案結構 Project Structure
 
-```
-Local_Chatbot_System/
-├── main.py                            # 主程式 Main script
-├── 20250616 answer_example.jpg        # 回答畫面示意圖 Screenshot
-├── requirements.txt                   # 套件需求 Required packages
-└── test_doc/                          # 測試用 PDF 資料夾 Test documents
-    ├── HR_QA.pdf
-    ├── IT_QA.pdf
-    └── Finance_QA.pdf
-```
+    Local_Chatbot_System/
+    ├── main.py                # Streamlit 問答主程式 / Main Streamlit Q&A app
+    ├── modules/               # 模組化程式區 / Modular components
+    │   ├── config.py          # 模型與目錄設定 / Model and directory configuration
+    │   ├── langgraph_chat.py  # LangGraph Agent 定義 / Agent graph and state logic
+    │   └── utils.py           # PDF 向量化與清理工具 / PDF vectorization and text cleaning
+    ├── Dockerfile             # 主系統容器建置檔 / Streamlit app container build file
+    ├── docker-compose.yml     # 一鍵啟動主系統 + Ollama / Launches app + Ollama containers
+    ├── requirements.txt       # 套件需求 / Required Python packages
+    ├── pdfFiles/              # 使用者上傳文件 / Uploaded PDF directory
+    └── vectorDB/              # 向量資料庫（持久化）/ Persistent vector database
 
----
-
-## 🛠 使用技術 Tech Stack
-
-- **LLM**：Ollama（Gemma3）  
-  Ollama (Gemma3 local model)
-- **語意嵌入模型**：nomic-embed-text  
-  nomic-embed-text (embedding for Chinese)
-- **向量資料庫**：Chroma（搭配 SQLite 儲存）  
-  Chroma with SQLite persistence
-- **資料分類機制**：依照目錄類別自動儲存向量  
-  Vector storage by document category (HR & Finance / IT)
-- **框架整合**：LangChain  
-  LangChain for agent orchestration
-- **UI介面**：Streamlit  
-  Streamlit interface
-- **記憶模組**：ConversationBufferWindowMemory  
-  Memory module: window memory (3 rounds)
-
----
+------------------------------------------------------------------------
 
 ## 🚀 執行方式 How to Run
 
-### 1️⃣ 安裝必要 Python 套件 Install required packages
+### 🐍 Local Run
 
-```bash
+``` bash
 pip install -r requirements.txt
-```
-
-### 2️⃣ 安裝 Ollama 並下載模型 Install Ollama & Models
-
-請至 Ollama 官方網站安裝：  
-Visit https://ollama.com/ to install Ollama
-
-下載所需模型：  
-Download the required models:
-
-```bash
-ollama pull nomic-embed-text
 ollama pull gemma3:4b
-```
-
-### 3️⃣ 啟動系統 Launch the app
-
-```bash
+ollama pull nomic-embed-text
 streamlit run main.py
 ```
 
----
+### 🐳 Docker Compose
 
-## 🔮 未來規劃 Roadmap
+``` bash
+docker compose up --build
+```
 
-- [x] 加入 SQLite 儲存向量庫，支援跨次啟動  
-      Add SQLite backend to persist vector store
-- [x] 支援多機器人分類（人事財務/IT）  
-      Multiple bot modes for HR & Finance / IT
-- [ ] 整合 Docker + Ubuntu GPU 部署架構  
-      Docker + GPU deployment for enterprise use
-- [ ] 加入原文段落引用與回答來源標示  
-      Display cited sources from PDF text
-- [ ] 實作知識上傳與權限管理介面  
-      Upload interface with access control
+-   Streamlit UI: <http://localhost:8501>
+-   Ollama Service: http://ollama:11434
 
----
+Uploaded PDFs and vector DBs will be saved locally under:
+
+    ./pdfFiles/
+    ./vectorDB/
+
+------------------------------------------------------------------------
+
+## 🆕 更新紀錄 Update Highlights (2025.11.08)
+
+-   🧭 新增 **LangGraph Agent**：自動分類問題（人事財務 / 資訊）\
+-   🧩 改為模組化架構（config / utils / agent）\
+-   🐳 支援 **Docker Compose 一鍵部署**\
+-   💾 Volume 掛載：資料與模型向量持久化
+
+------------------------------------------------------------------------
 
 ## 🙋‍♀️ 作者 Author
 
-**鄭宛瑜（Winnie Jheng）**  
-
+**鄭宛瑜（Winnie Jheng）**\
+Generative AI Engineer · Taiwan · 2025

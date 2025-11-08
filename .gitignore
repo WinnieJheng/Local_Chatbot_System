@@ -1,0 +1,11 @@
+__pycache__/
+.venv/
+.streamlit/
+pdfFiles/
+vectorDB/
+*.log
+*.tmp
+*.db
+ollama/
+.DS_Store
+.vscode/
