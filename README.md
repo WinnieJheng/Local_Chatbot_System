@@ -34,7 +34,17 @@ local vector databases.
 -   🧾 **繁體中文自然語言互動**\
     Designed for non-technical enterprise users in Taiwan
 
-------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+## 🖼️ 範例畫面 Screenshots
+
+**📄 文件上傳區 / Upload Interface**
+![Upload Example](20251108%20upload_example.jpg)
+
+**💬 問答互動區 / Q&A Interface**
+![Answer Example](20251108%20answer_example.jpg)
+
+---------------------------------------------------------------------------
 
 ## 📁 專案結構 Project Structure
 
